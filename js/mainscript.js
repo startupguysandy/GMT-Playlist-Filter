@@ -19,12 +19,30 @@ window.addEventListener('load', ()=> {
         }
     }
 
-    function hideUnusedGenres() {
+    function generateCheckboxes() {
+        for(let i=0;i<uniqueGenres.length;++i){
+            let ul = document.getElementById("filters");
+            let li = document.createElement("li");
+            let checkbox = document.createElement("input");
+            checkbox.setAttribute("type", "checkbox");
 
+            li.appendChild(checkbox);
+            li.appendChild(document.createTextNode(uniqueGenres[i]));
+            ul.appendChild(li);
+        }
+    }
+    generateCheckboxes();
 
+    function checkboxEnabled() {
+        // TODO: Call this function when a checkbox on the page is checked. I think this is how I need to work with an event listener for that.
     }
 
-    // create a checkbox at the top of the page for each genre in the array
-    // show full list by default
+    function hideUnusedGenres() {
+        // TODO: Add functionality so once a checkbox is enabled we go through the DOM elements and hide anything which isn't in the selectedGenres array
+        //  I may need a button to kick off the listener initially
+    }
+    hideUnusedGenres();
+
+    // show full list of genres on page load
     // when a checkbox is checked, hide all other songs which don't match the checkbox selected
 });
