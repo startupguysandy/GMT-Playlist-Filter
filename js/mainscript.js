@@ -3,6 +3,13 @@ window.addEventListener('load', ()=> {
     let allGenres = listName.getElementsByTagName("li"); // gets the full html li element as an object
     let uniqueGenres = [];
     let selectedGenres = [];
+    let grammyNominated = Array.from(document.querySelectorAll('[data-grammy="yes"]'));
+
+    // TODO: Add additional functionality to toggle display: none ononly Grammy Nominated songs. Things to be considered:
+    //  a new listener so we know when the checkbox is selected
+    //  if statement when revealing list items again to see if they are Grammy Nominated
+    //  within that if statement, checking if the items are already hidden when we want to see grammy nominated songs. If they are, make sure we don't show those songs when they are supposed to be hidden.
+
 
     function findUniqueGenres() {
         for(let i=0;i<allGenres.length;++i){ // loop through all genres in the listed element
@@ -36,15 +43,15 @@ window.addEventListener('load', ()=> {
 
     function addSelectedGenre(genre) {
         selectedGenres.push(genre);
-        hideUnusedGenres(genre);
+        hideSelectedGenres(genre);
     }
 
     function removeSelectedGenre(genre) {
         selectedGenres.pop(genre);
-        showUnusedGenres(genre);
+        showUnselectedGenres(genre);
     }
 
-    function hideUnusedGenres(genre) {
+    function hideSelectedGenres(genre) {
         // querySelectorAll grabs the information as a nodelist, need to turn it into an array to be able to access items within it
         let itemsToHide = Array.from(document.querySelectorAll('[data-genre="'+genre+'"]'));
 
@@ -53,12 +60,18 @@ window.addEventListener('load', ()=> {
         });
     }
 
-    function showUnusedGenres(genre) {
+    function showUnselectedGenres(genre) {
         // querySelectorAll grabs the information as a nodelist, need to turn it into an array to be able to access items within it
         let itemsToShow = Array.from(document.querySelectorAll('[data-genre="'+genre+'"]'));
 
         itemsToShow.forEach(element => {
             element.style.display = "list-item";
+        });
+    }
+
+    function toggleGrammyNominated() {
+        grammyNominated.forEach(element => {
+            element.style.display = "none";
         });
     }
 
