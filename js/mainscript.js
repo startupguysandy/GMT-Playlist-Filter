@@ -4,10 +4,12 @@ window.addEventListener('load', ()=> {
     let uniqueGenres = [];
     let selectedGenres = [];
 
-    for(let i=0;i<allGenres.length;++i){ // loop through all genres in the listed element
-        // on each loop add any unique (only unique) genres fro the data tag to the new uniqueGenres array
-        if(!uniqueGenres.includes(allGenres[i].getAttribute('data-genre'))){
-            uniqueGenres.push(allGenres[i].getAttribute('data-genre'));
+    function findUniqueGenres() {
+        for(let i=0;i<allGenres.length;++i){ // loop through all genres in the listed element
+            // on each loop add any unique (only unique) genres fro the data tag to the new uniqueGenres array
+            if(!uniqueGenres.includes(allGenres[i].getAttribute('data-genre'))){
+                uniqueGenres.push(allGenres[i].getAttribute('data-genre'));
+            }
         }
     }
 
@@ -31,7 +33,6 @@ window.addEventListener('load', ()=> {
             ul.appendChild(li);
         }
     }
-    generateCheckboxes();
 
     function addSelectedGenre(genre) {
         selectedGenres.push(genre);
@@ -60,4 +61,8 @@ window.addEventListener('load', ()=> {
             element.style.display = "list-item";
         });
     }
+
+    // call essential functions on page load
+    findUniqueGenres();
+    generateCheckboxes();
 });
