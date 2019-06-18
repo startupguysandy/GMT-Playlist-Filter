@@ -2,7 +2,7 @@ window.addEventListener('load', ()=> {
     let listName = document.getElementById("playlist");
     let allGenres = listName.getElementsByTagName("li"); // gets the full html li element as an object
     let uniqueGenres = [];
-    let selectedGenres = "hip-hop"; // TODO: Change to an array once I've implemented checkbox functionality
+    let selectedGenres = []; // TODO: Change to an array once I've implemented checkbox functionality
 
     for(let i=0;i<allGenres.length;++i){ // loop through all genres in the listed element
         // on each loop add any unique (only unique) genres fro the data tag to the new uniqueGenres array
@@ -15,7 +15,6 @@ window.addEventListener('load', ()=> {
         // if the genre doesn't match, hide this li element
         if(allGenres[i].getAttribute('data-genre') !== selectedGenres) {
             allGenres[i].style.display = "none";
-            console.log(allGenres[i].getAttribute('data-genre'));
         }
     }
 
@@ -25,6 +24,14 @@ window.addEventListener('load', ()=> {
             let li = document.createElement("li");
             let checkbox = document.createElement("input");
             checkbox.setAttribute("type", "checkbox");
+            checkbox.setAttribute("id", uniqueGenres[i]);
+            checkbox.addEventListener('change', (event) => {
+                if (event.target.checked) {
+                    addSelectedGenre(uniqueGenres[i]);
+                } else {
+                    removeSelectedGenre(uniqueGenres[i]);
+                }
+            });
 
             li.appendChild(checkbox);
             li.appendChild(document.createTextNode(uniqueGenres[i]));
@@ -33,8 +40,16 @@ window.addEventListener('load', ()=> {
     }
     generateCheckboxes();
 
-    function checkboxEnabled() {
+    function addSelectedGenre(genre) {
         // TODO: Call this function when a checkbox on the page is checked. I think this is how I need to work with an event listener for that.
+        selectedGenres.push(genre);
+        console.log(selectedGenres);
+    }
+
+    function removeSelectedGenre(genre) {
+        // TODO: Call this function when a checkbox on the page is checked. I think this is how I need to work with an event listener for that.
+        selectedGenres.pop(genre);
+        console.log(selectedGenres);
     }
 
     function hideUnusedGenres() {
