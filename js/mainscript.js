@@ -1,15 +1,13 @@
 window.addEventListener('load', ()=> {
     let listName = document.getElementById("playlist");
     let allGenres = listName.getElementsByTagName("li"); // gets the full html li element as an object
+    let grammyCheckbox = document.getElementById("grammy-nominated");
     let uniqueGenres = [];
-    let selectedGenres = [];
-    let grammyNominated = Array.from(document.querySelectorAll('[data-grammy="yes"]'));
 
-    // TODO: Add additional functionality to toggle display: none ononly Grammy Nominated songs. Things to be considered:
-    //  a new listener so we know when the checkbox is selected
-    //  if statement when revealing list items again to see if they are Grammy Nominated
-    //  within that if statement, checking if the items are already hidden when we want to see grammy nominated songs. If they are, make sure we don't show those songs when they are supposed to be hidden.
-
+    console.log(grammyCheckbox);
+    grammyCheckbox.addEventListener('change', (event) => {
+        toggleGrammyNominated();
+    });
 
     function findUniqueGenres() {
         for(let i=0;i<allGenres.length;++i){ // loop through all genres in the listed element
@@ -28,11 +26,7 @@ window.addEventListener('load', ()=> {
             checkbox.setAttribute("type", "checkbox");
             checkbox.setAttribute("id", uniqueGenres[i]);
             checkbox.addEventListener('change', (event) => {
-                if (event.target.checked) {
-                    addSelectedGenre(uniqueGenres[i]);
-                } else {
-                    removeSelectedGenre(uniqueGenres[i]);
-                }
+                toggleGenres(uniqueGenres[i]);
             });
 
             li.appendChild(checkbox);
@@ -41,37 +35,31 @@ window.addEventListener('load', ()=> {
         }
     }
 
-    function addSelectedGenre(genre) {
-        selectedGenres.push(genre);
-        hideSelectedGenres(genre);
-    }
+    function toggleGenres(genre) {
+        let itemsToToggle = Array.from(document.querySelectorAll('[data-genre="'+genre+'"]'));
 
-    function removeSelectedGenre(genre) {
-        selectedGenres.pop(genre);
-        showUnselectedGenres(genre);
-    }
-
-    function hideSelectedGenres(genre) {
-        // querySelectorAll grabs the information as a nodelist, need to turn it into an array to be able to access items within it
-        let itemsToHide = Array.from(document.querySelectorAll('[data-genre="'+genre+'"]'));
-
-        itemsToHide.forEach(element => {
-            element.style.display = "none";
-        });
-    }
-
-    function showUnselectedGenres(genre) {
-        // querySelectorAll grabs the information as a nodelist, need to turn it into an array to be able to access items within it
-        let itemsToShow = Array.from(document.querySelectorAll('[data-genre="'+genre+'"]'));
-
-        itemsToShow.forEach(element => {
-            element.style.display = "list-item";
+        itemsToToggle.forEach(element => {
+            if(element.style.display === "none" && element.getAttribute('data-grammystate') !== "hidden") {
+                element.style.display = "list-item";
+                element.removeAttribute('data-genrestate');
+            } else {
+                element.style.display = "none";
+                element.setAttribute('data-genrestate', 'hidden');
+            }
         });
     }
 
     function toggleGrammyNominated() {
-        grammyNominated.forEach(element => {
-            element.style.display = "none";
+        let itemsToToggle = Array.from(document.querySelectorAll('[data-grammy="yes"]'));
+
+        itemsToToggle.forEach(element => {
+            if(element.style.display === "none" && element.getAttribute('data-genrestate') !== "hidden") {
+                element.style.display = "list-item";
+                element.removeAttribute('data-grammystate');
+            } else {
+                element.style.display = "none";
+                element.setAttribute('data-grammystate', 'hidden');
+            }
         });
     }
 
