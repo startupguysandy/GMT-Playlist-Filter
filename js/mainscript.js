@@ -11,12 +11,6 @@ window.addEventListener('load', ()=> {
         toggleGrammyNominated();
     });
 
-    // TODO: Add additional functionality to toggle "display: none" on only Grammy Nominated songs. Things to be considered:
-    //  DONE: a new listener so we know when the checkbox is selected
-    //  DONE: if statement when revealing list items again to see if they are Grammy Nominated
-    //  within that if statement, checking if the items are already hidden when we want to see grammy nominated songs. If they are, make sure we don't show those songs when they are supposed to be hidden.
-
-
     function findUniqueGenres() {
         for(let i=0;i<allGenres.length;++i){ // loop through all genres in the listed element
             // on each loop add any unique (only unique) genres fro the data tag to the new uniqueGenres array
@@ -63,6 +57,7 @@ window.addEventListener('load', ()=> {
 
         itemsToHide.forEach(element => {
             element.style.display = "none";
+            element.setAttribute('data-state', 'hidden');
         });
     }
 
@@ -72,6 +67,7 @@ window.addEventListener('load', ()=> {
 
         itemsToShow.forEach(element => {
             element.style.display = "list-item";
+            element.removeAttribute('data-state');
         });
     }
 
@@ -79,7 +75,7 @@ window.addEventListener('load', ()=> {
         let itemsToToggle = Array.from(document.querySelectorAll('[data-grammy="yes"]'));
 
         itemsToToggle.forEach(element => {
-            if(element.style.display === "none") {
+            if(element.style.display === "none" && element.getAttribute('data-state') !== "hidden") {
                 element.style.display = "list-item";
             } else {
                 element.style.display = "none";
