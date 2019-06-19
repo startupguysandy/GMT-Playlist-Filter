@@ -1,13 +1,19 @@
 window.addEventListener('load', ()=> {
     let listName = document.getElementById("playlist");
     let allGenres = listName.getElementsByTagName("li"); // gets the full html li element as an object
+    let grammyCheckbox = document.getElementById("grammy-nominated");
     let uniqueGenres = [];
     let selectedGenres = [];
     let grammyNominated = Array.from(document.querySelectorAll('[data-grammy="yes"]'));
 
-    // TODO: Add additional functionality to toggle display: none ononly Grammy Nominated songs. Things to be considered:
-    //  a new listener so we know when the checkbox is selected
-    //  if statement when revealing list items again to see if they are Grammy Nominated
+    console.log(grammyCheckbox);
+    grammyCheckbox.addEventListener('change', (event) => {
+        toggleGrammyNominated();
+    });
+
+    // TODO: Add additional functionality to toggle "display: none" on only Grammy Nominated songs. Things to be considered:
+    //  DONE: a new listener so we know when the checkbox is selected
+    //  DONE: if statement when revealing list items again to see if they are Grammy Nominated
     //  within that if statement, checking if the items are already hidden when we want to see grammy nominated songs. If they are, make sure we don't show those songs when they are supposed to be hidden.
 
 
@@ -70,8 +76,14 @@ window.addEventListener('load', ()=> {
     }
 
     function toggleGrammyNominated() {
-        grammyNominated.forEach(element => {
-            element.style.display = "none";
+        let itemsToToggle = Array.from(document.querySelectorAll('[data-grammy="yes"]'));
+
+        itemsToToggle.forEach(element => {
+            if(element.style.display === "none") {
+                element.style.display = "list-item";
+            } else {
+                element.style.display = "none";
+            }
         });
     }
 
